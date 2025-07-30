@@ -2,12 +2,16 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 class Board{
+    public int sol = 1;
    private ArrayList<ArrayList<String>> board = new ArrayList<>();
    Queen queen = new Queen();
    public void showQueenPosition() {
     Coordinate pos = queen.coordinates.get(0);
     System.out.println("Queen is at: " + pos.x + ", " + pos.y);
 }
+    public void getSolution(){
+        System.out.println("Total number of Solution:"+sol);
+    }
     public void initBoard(){
         board.clear();
         for (int i = 0; i < 8; i++) {
@@ -34,15 +38,7 @@ class Board{
         System.out.println("Error: Tried to access an index out of bounds.");
         }
     }
-    public void queenChecker(){
-        for(int i = 0; i < 8; i++){
-            for(int j = 0; j < 8; j++){
-                if(board.get(i).get(j) == "Q "){
-                    pathing(i,j);
-                }
-            }
-        }
-    }
+   
     public void pathing(int currx, int curry){
          for(int i = 0; i < 8; i++){
             for(int j = 0; j < 8; j++){
@@ -52,16 +48,46 @@ class Board{
             }
          }
     }
-      public void placeQueen(){;
-        for(int i = 0; i < 8; i++){
-            for(int j = 0; j < 8; j++){
-                if(board.get(i).get(j) =="0 "){
-                    setPiece(i,j,queen.getQueen());
-                    queenChecker();
-                    
-                }
+    public boolean isValid(int currx,int curry){
+      for(int i = 0; i < 8; i++){
+        if(board.get(i).get(curry).equals("Q ")){
+            return false;
+        }
+      }
+        for(int i = currx - 1, j = curry - 1; i >= 0 && j >= 0; i--,j--){
+            if(board.get(i).get(j).equals("Q ")){
+                return false;
             }
         }
+         for(int i = currx - 1, j = curry + 1; i >= 0 && j < 8; i--,j++){
+            if(board.get(i).get(j).equals("Q ")){
+                return false;
+            }
+        }
+        return true;
+    }
+    public void Nth_QueenSolver(int i){
+        if(i == 8){//goal is i == 8th
+        System.out.println("Solution No:"+ sol);
+            getBoard();
+            System.out.println();
+            // Scanner Scan = new Scanner(System.in);
+            //String buff = Scan.nextLine();
+            sol++;
+            return;
+        }
+        for(int j = 0; j < 8; j++){
+            if(isValid(i,j)){//constraints
+            placeQueen(i,j); //Choice
+            Nth_QueenSolver(i+1);
+            board.get(i).set(j,"0 ");//undo
+            }
+            
+        }      
+    }
+      public void placeQueen(int i,int j){
+        setPiece(i,j,queen.getQueen());
+        pathing(i,j);
     }
 } 
 class Coordinate{
@@ -87,10 +113,9 @@ class Queen{
 
 public class Q_Problem {
     public static void main(String[] args){
-        Queen queen = new Queen();
         Board board = new Board();
         board.initBoard();
-        board.placeQueen();
-        board.getBoard();
+        board.Nth_QueenSolver(0);
+        board.getSolution();
     }  
 }
