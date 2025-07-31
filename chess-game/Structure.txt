@@ -1,0 +1,27 @@
+chess-game/
+│
+├── src/
+│   ├── main.cpp
+│   ├── Game.cpp
+│   ├── Board.cpp
+│   ├── Piece.cpp
+│   ├── King.cpp
+│   ├── Queen.cpp
+│   ├── Rook.cpp
+│   ├── Bishop.cpp
+│   ├── Knight.cpp
+│   ├── Pawn.cpp
+│
+├── include/
+│   ├── Game.h
+│   ├── Board.h
+│   ├── Piece.h
+│   ├── King.h
+│   ├── Queen.h
+│   ├── Rook.h
+│   ├── Bishop.h
+│   ├── Knight.h
+│   ├── Pawn.h
+│
+│
+└── build/          # Compiled output goes here
